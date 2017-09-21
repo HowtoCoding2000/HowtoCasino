@@ -1,11 +1,12 @@
 import java.util.Scanner;
 public class Craps
 	{
+		static int dollars = 100;
+		
 		public static void main(String[] args)
 			{
 				Scanner userInput = new
 				Scanner (System.in);
-				int dollars = 100;
 				System.out.println("Welcome to HowtoSurvival's HowtoCasino! What is your name?");
 				String name = userInput.nextLine();
 				System.out.println("Hello, " + name + ". Would you like to play Craps?");
@@ -18,9 +19,9 @@ public class Craps
 					}
 				else if (answer == 1)
 					{
-						boolean stillPlaying = true;
-						boolean letsPlay = true;
-						while (letsPlay == true)
+						boolean stillPlayingSlots = true;
+						boolean letsPlaySlots = true;
+						while (letsPlaySlots == true)
 							{
 							System.out.println("Welcome to Craps " + name + "! You have $" + dollars + "!");
 							System.out.println("How much would you like to bet on this game?");
@@ -41,7 +42,7 @@ public class Craps
 									dollars += bet;
 									if (dollars == 0)
 										{
-											letsPlay = false;
+											letsPlaySlots = false;
 										}
 									else if (dollars > 0)
 										{
@@ -52,7 +53,7 @@ public class Craps
 											int playGameAgain = userInput.nextInt();
 											if (playGameAgain == 2)
 												{
-													letsPlay = false;
+													letsPlaySlots = false;
 												}
 											else
 												{
@@ -67,7 +68,7 @@ public class Craps
 								dollars -= bet;
 								if (dollars == 0)
 									{
-										letsPlay = false;
+										letsPlaySlots = false;
 									}
 								else if (dollars > 0)
 									{
@@ -78,7 +79,7 @@ public class Craps
 										int playAgain = userInput.nextInt();
 										if (playAgain == 2)
 											{
-												letsPlay = false;
+												letsPlaySlots = false;
 											}
 										else
 											{
@@ -108,8 +109,8 @@ public class Craps
 														{
 															rollingAgain = false;
 															rollingOn = false;
-															letsPlay = false;
-															stillPlaying = false;
+															letsPlaySlots = false;
+															stillPlayingSlots = false;
 														}
 													else if (dollars > 0)
 														{
@@ -122,8 +123,8 @@ public class Craps
 																{
 																	rollingAgain = false;
 																	rollingOn = false;
-																	letsPlay = false;
-																	stillPlaying = false;
+																	letsPlaySlots = false;
+																	stillPlayingSlots = false;
 																}
 															else
 																{
@@ -140,7 +141,7 @@ public class Craps
 													dollars += bet;
 													if (dollars == 0)
 														{
-															stillPlaying = false;
+															stillPlayingSlots = false;
 														}
 													else if (dollars > 0)
 														{
@@ -151,10 +152,15 @@ public class Craps
 															int playAgain = userInput.nextInt();
 															if (playAgain == 2)
 																{
-																	letsPlay = false;
+																	rollingAgain = false;
+																	rollingOn = false;
+																	letsPlaySlots = false;
+																	stillPlayingSlots = false;
 																}
 															else
 																{
+																	rollingOn = false;
+																	rollingAgain = false;
 																	System.out.println("Let's play!");
 																}
 														}
