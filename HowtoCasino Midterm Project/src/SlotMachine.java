@@ -14,6 +14,8 @@ public class SlotMachine
 					Scanner userInput = new Scanner(System.in);
 					
 					System.out.println("Welcome to Slots.");
+					System.out.println("Slots is a game with three wheels, with pictures on them, that spin.");
+					System.out.println("When the wheels stop if three pictures line up you win!");
 					System.out.println("You have $" + dollars + ".");
 					System.out.println("We offer 3 slot machines for you to choose from.");
 					System.out.println("Choose the machine you would like to play.");

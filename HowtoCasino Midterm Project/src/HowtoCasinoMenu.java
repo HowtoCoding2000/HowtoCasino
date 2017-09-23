@@ -9,6 +9,7 @@ public class HowtoCasinoMenu
 		static String pictures = "";
 		static String pictures2 = "";
 		static String pictures3 = "";
+		static String name = "";
 		public static void main(String[] args)
 			{
 				Scanner userInput = new Scanner(System.in);
@@ -19,6 +20,9 @@ public class HowtoCasinoMenu
 							{
 								System.out.println("You have $" + dollars + "");
 								System.out.println("Welcome to the HowtoCasino!");
+								System.out.println("What is your name?");
+								name = userInput.nextLine();
+								System.out.println("Welcome, " + name + "!");
 								System.out.println("Here at the HowtoCasino, we offer several games for you to choose from!");
 								System.out.println("Take your pick!");
 							}
@@ -38,7 +42,7 @@ public class HowtoCasinoMenu
 							{
 								slotMachine();
 							}
-						System.out.println("Would you like to Play again and return to the lobby?");
+						System.out.println("Would you like to play again and return to the lobby?");
 						System.out.println("(1) Yes, return to the HowtoCasino lobby.");
 						System.out.println("(2) No, exit the HowtoCansino.");
 						int backToLobby = userInput.nextInt();
@@ -47,29 +51,18 @@ public class HowtoCasinoMenu
 								stillPlaying = false;
 								System.out.println("Come back again soon!");
 							}
+						timesUsed++;
 					}
 			}
 		public static void craps()
 			{
-				Scanner userInput = new
+						Scanner userInput = new
 						Scanner (System.in);
-						System.out.println("Welcome to HowtoSurvival's HowtoCasino! What is your name?");
-						String name = userInput.nextLine();
-						System.out.println("Hello, " + name + ". Would you like to play Craps?");
-						System.out.println("(1) Yes");
-						System.out.println("(2) No");
-						int answer = userInput.nextInt();
-						if (answer == 2)
-							{
-								System.out.println("Shame, come back again soon when you would like to play Craps!");
-							}
-						else if (answer == 1)
-							{
 								boolean stillPlayingSlots = true;
 								boolean letsPlaySlots = true;
 								while (letsPlaySlots == true)
 									{
-									System.out.println("Welcome to Craps " + name + "! You have $" + dollars + "!");
+									System.out.println("Welcome to Craps, " + name + "! You have $" + dollars + "!");
 									System.out.println("How much would you like to bet on this game?");
 									int bet = userInput.nextInt();
 									while (bet > dollars || bet < 1)
@@ -213,14 +206,12 @@ public class HowtoCasinoMenu
 														}
 												}
 											}
+										}
 									}
-								}
-						}
 			}
 		public static void slotMachine()
 			{
-						Scanner userInput = new Scanner(System.in);
-						
+						Scanner userInput = new Scanner(System.in); 
 						System.out.println("Welcome to Slots.");
 						System.out.println("You have $" + dollars + ".");
 						System.out.println("We offer 3 slot machines for you to choose from.");
