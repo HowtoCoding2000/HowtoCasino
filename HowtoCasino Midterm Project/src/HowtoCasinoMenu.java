@@ -10,10 +10,10 @@ public class HowtoCasinoMenu
 		static String pictures2 = "";
 		static String pictures3 = "";
 		static String name = "";
+		static boolean stillPlaying = true;
 		public static void main(String[] args)
 			{
 				Scanner userInput = new Scanner(System.in);
-				boolean stillPlaying = true;
 				while (stillPlaying == true)
 					{
 						if (timesUsed == 1)
@@ -33,6 +33,7 @@ public class HowtoCasinoMenu
 							}
 						System.out.println("(1) Craps");
 						System.out.println("(2) Slots");
+						System.out.println("(3) Keno");
 						int game = userInput.nextInt();
 						if (game == 1)
 							{
@@ -42,15 +43,26 @@ public class HowtoCasinoMenu
 							{
 								slotMachine();
 							}
-						System.out.println("Would you like to play again and return to the lobby?");
-						System.out.println("(1) Yes, return to the HowtoCasino lobby.");
-						System.out.println("(2) No, exit the HowtoCansino.");
-						int backToLobby = userInput.nextInt();
-						if (backToLobby == 2)
+						else
 							{
-								stillPlaying = false;
-								System.out.println("Come back again soon!");
+								keno();
 							}
+					if (dollars < 1)
+					{
+						stillPlaying = false;
+					}
+					else
+						{
+							System.out.println("Would you like to play again and return to the lobby?");
+							System.out.println("(1) Yes, return to the HowtoCasino lobby.");
+							System.out.println("(2) No, exit the HowtoCansino.");
+							int backToLobby = userInput.nextInt();
+							if (backToLobby == 2)
+								{
+									stillPlaying = false;
+									System.out.println("Come back again soon!");
+								}
+						}
 						timesUsed++;
 					}
 			}
@@ -107,12 +119,14 @@ public class HowtoCasinoMenu
 										dollars -= bet;
 										if (dollars == 0)
 											{
+												System.out.println();
 												letsPlaySlots = false;
+												stillPlaying = false;
 											}
 										else if (dollars > 0)
 											{
 												System.out.println("You have $" + dollars + " remaining.");
-												System.out.println("Would you like to play again " + name + "?");
+												System.out.println("Would you like to play Craps again " + name + "?");
 												System.out.println("(1) Yes");
 												System.out.println("(2) No");
 												int playAgain = userInput.nextInt();
@@ -146,6 +160,8 @@ public class HowtoCasinoMenu
 															dollars -= bet;
 															if (dollars == 0)
 																{
+																	System.out.println("You have lost everything.");
+																	stillPlaying = false;
 																	rollingAgain = false;
 																	rollingOn = false;
 																	letsPlaySlots = false;
@@ -180,12 +196,14 @@ public class HowtoCasinoMenu
 															dollars += bet;
 															if (dollars == 0)
 																{
+																	System.out.println("You have lost everything.");
+																	stillPlaying = false;
 																	stillPlayingSlots = false;
 																}
 															else if (dollars > 0)
 																{
 																	System.out.println("You have $" + dollars + " remaining.");
-																	System.out.println("Would you like to play again " + name + "?");
+																	System.out.println("Would you like to play Craps again " + name + "?");
 																	System.out.println("(1) Yes");
 																	System.out.println("(2) No");
 																	int playAgain = userInput.nextInt();
@@ -234,7 +252,7 @@ public class HowtoCasinoMenu
 							{
 								System.out.println("You've chosen Triple Threat!");
 							}
-						
+						System.out.println("You have $" + dollars + ".");
 						boolean playingSlots = true;
 						
 						while (playingSlots == true)
@@ -323,7 +341,7 @@ public class HowtoCasinoMenu
 											}
 										else
 											{
-												System.out.println("Would you like to play Slots again?");
+												System.out.println("Would you like to play Slots again, " + name + "?");
 												System.out.println("(1) Yes");
 												System.out.println("(2) No");
 												int playSlotsAgain = userInput.nextInt();
@@ -335,6 +353,7 @@ public class HowtoCasinoMenu
 													{
 														System.out.println("\"Come play again soon!\" says the voice from the speaker.");
 														playingSlots = false;
+														stillPlaying = false;
 													}
 											}
 									}
@@ -466,55 +485,108 @@ public class HowtoCasinoMenu
 			{
 				Scanner userInput = new Scanner (System.in);
 				int [] kenoNumbers = new int [20];
-				whilse
+				boolean stillPlayingKeno = true;
 				for (int i = 0; i < 20; i++)
 					{
-						kenoNumbers [i] = (int) (Math.random()*80) + 1; 
+						kenoNumbers [i] = (int) (Math.random()*80) + 1;
+						boolean twoKenoNumbersTheSame = true;
+						while (twoKenoNumbersTheSame == true)
+						{
+							for (int j = 0; j < 20; j++)
+								{
+									if (kenoNumbers [i] == kenoNumbers [j])
+										{
+											if (i == j)
+												{
+													twoKenoNumbersTheSame = false;
+												}
+												else
+												{
+													kenoNumbers [i] = (int) (Math.random()*80) + 1;
+												}
+										}
+								}
+						}
 					}
 				System.out.println("Welcome to Keno!");
 				System.out.println("Keno is a number based betting game. You get to pick up to 20 numbers from 1-80.");
 				System.out.println("20 numbers will then be randomely selected.");
 				System.out.println("The more numbers that match the ones you picked, the more you win!.");
 				System.out.println("You have $" + dollars + ".");
-				System.out.println("How much would you like to bet?");
-				int bet = userInput.nextInt();
-				int [] numbersChosen = new int [20];
-				for (int i = 0; i < 20; i++)
+				while (stillPlayingKeno == true)
 					{
-						System.out.println("Enter a number you want to choose.");
-						numbersChosen [i] = userInput.nextInt();
-					}
-				System.out.println("The winning numbers are:");
-				for (int i = 0; i < 20; i++)
-					{
-						System.out.print(kenoNumbers[i]);
-					}		
-				int numbersThatMatch = 0;
-				for (int i = 0; i < 20; i++)
-					{
-						if (kenoNumbers[i] == numbersChosen[0] || kenoNumbers[i] == numbersChosen[1] || kenoNumbers[i] == numbersChosen[2] || kenoNumbers[i] == numbersChosen[3] || kenoNumbers[i] == numbersChosen[4] || kenoNumbers[i] == numbersChosen[5] || kenoNumbers[i] == numbersChosen[6] || kenoNumbers[i] == numbersChosen[7] || kenoNumbers[i] == numbersChosen[8] || kenoNumbers[i] == numbersChosen[9] || kenoNumbers[i] == numbersChosen[10] || kenoNumbers[i] == numbersChosen[11] || kenoNumbers[i] == numbersChosen[12] || kenoNumbers[i] == numbersChosen[13] || kenoNumbers[i] == numbersChosen[14] || kenoNumbers[i] == numbersChosen[15] || kenoNumbers[i] == numbersChosen[16] || kenoNumbers[i] == numbersChosen[17] || kenoNumbers[i] == numbersChosen[18] || kenoNumbers[i] == numbersChosen[19])
+						System.out.println("How much would you like to bet?");
+						int bet = userInput.nextInt();
+						if (bet > dollars)
+						{
+							System.out.println("You have entered an invalid bet.");
+							System.out.println("Enter a bet that is equal to or less than $" + dollars + ".");
+							bet = userInput.nextInt();
+						}
+					else
+						{
+							System.out.println("You bet $" + bet + " on this game.");
+						}
+						int [] numbersChosen = new int [20];
+						for (int i = 0; i < 20; i++)
 							{
-								numbersThatMatch++;
+								System.out.println("Enter a number you want to choose.");
+								numbersChosen [i] = userInput.nextInt();
+							}
+						System.out.println("The winning numbers are:");
+						for (int i = 0; i < 20; i++)
+							{
+								if (i < 19)
+									{
+										System.out.print(kenoNumbers[i] + ", ");
+									}
+								else
+									{
+										System.out.println("and " + kenoNumbers[i]);
+									}
+							}		
+						int numbersThatMatch = 0;
+						for (int i = 0; i < 20; i++)
+							{
+								if (kenoNumbers[i] == numbersChosen[0] || kenoNumbers[i] == numbersChosen[1] || kenoNumbers[i] == numbersChosen[2] || kenoNumbers[i] == numbersChosen[3] || kenoNumbers[i] == numbersChosen[4] || kenoNumbers[i] == numbersChosen[5] || kenoNumbers[i] == numbersChosen[6] || kenoNumbers[i] == numbersChosen[7] || kenoNumbers[i] == numbersChosen[8] || kenoNumbers[i] == numbersChosen[9] || kenoNumbers[i] == numbersChosen[10] || kenoNumbers[i] == numbersChosen[11] || kenoNumbers[i] == numbersChosen[12] || kenoNumbers[i] == numbersChosen[13] || kenoNumbers[i] == numbersChosen[14] || kenoNumbers[i] == numbersChosen[15] || kenoNumbers[i] == numbersChosen[16] || kenoNumbers[i] == numbersChosen[17] || kenoNumbers[i] == numbersChosen[18] || kenoNumbers[i] == numbersChosen[19])
+									{
+										numbersThatMatch++;
+									}
+							}
+						if (numbersThatMatch > 0)
+							{
+								System.out.println("You had " + numbersThatMatch + " winning numbers!");
+								bet = bet*numbersThatMatch;
+								System.out.println("You win $" + bet + "!");
+								dollars = dollars + bet;
 							}
 						else
 							{
-								numbersThatMatch = numbersThatMatch;
+								System.out.println("You had 0 winning numbers.");
+								System.out.println("You lose.");
+								dollars = dollars - bet;
+								if (dollars < 1)
+									{
+										System.out.println("You have lost everything.");
+										stillPlaying = false;
+										stillPlayingKeno = false;
+										
+									}
+								else
+									{
+										System.out.println("You have $" + dollars + " remaining.");
+										System.out.println("Would you like to play Keno again, " + name + "?");
+										System.out.println("(1) Yes");
+										System.out.println("(2) No");
+										int playKenoAgain = userInput.nextInt();
+										if (playKenoAgain == 2)
+											{
+												System.out.println("Come play Keno again soon!");
+												stillPlayingKeno = false;
+											}
+									}
 							}
 					}
-				if (numbersThatMatch > 0)
-					{
-						System.out.println("You had " + numbersThatMatch + " winning numbers!");
-						bet = bet*numbersThatMatch;
-						System.out.println("You win $" + bet + "!");
-						dollars = dollars + bet;
-					}
-				else
-					{
-						System.out.println("You had 0 winning numbers.");
-						System.out.println("You lose.");
-						dollars = dollars - bet;
-					}
-				System.out.println("You have $" + dollars + " remaining.");
 			}
 	}
 
