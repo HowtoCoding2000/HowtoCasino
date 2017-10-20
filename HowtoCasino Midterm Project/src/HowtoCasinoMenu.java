@@ -55,7 +55,7 @@ public class HowtoCasinoMenu
 						{
 							System.out.println("Would you like to play again and return to the lobby?");
 							System.out.println("(1) Yes, return to the HowtoCasino lobby.");
-							System.out.println("(2) No, exit the HowtoCansino.");
+							System.out.println("(2) No, exit the HowtoCasino.");
 							int backToLobby = userInput.nextInt();
 							if (backToLobby == 2)
 								{
@@ -589,4 +589,3 @@ public class HowtoCasinoMenu
 					}
 			}
 	}
-

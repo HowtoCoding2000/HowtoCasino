@@ -35,10 +35,6 @@ public class Keno
 					{
 						numbersThatMatch++;
 					}
-				else
-					{
-						numbersThatMatch = numbersThatMatch;
-					}
 			}
 		if (numbersThatMatch > 0)
 			{
