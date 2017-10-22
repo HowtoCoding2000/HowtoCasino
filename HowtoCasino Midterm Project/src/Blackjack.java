@@ -2,10 +2,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
 public class Blackjack
-	{
+	{ 
 		static Scanner userInput = new Scanner(System.in);
+		static String name = "";
 		static ArrayList <Card> deck = new ArrayList<Card>();
 		static ArrayList <String> nameArray = new ArrayList <String>();
+		static int aIDollars1 = (int)(Math.random())*250 + 751;
+		static int aIDollars2 = (int)(Math.random())*250 + 751;
+		static int dollars = 1000;
+		static int aIBet1 = 0;
+		static int aIBet2 = 0;
+		static int bet = 0;
 		static int aIHand1Total = 0;
 		static int aIHand2Total = 0;
 		static int dealerHandTotal = 0;
@@ -20,12 +27,17 @@ public class Blackjack
 		static int playerBeingDeltTo = 0;
 		public static void main(String[] args)
 			{
+				blackjack();
+			}
+		public static void blackjack()
+			{
 				generateRandomNames();
 				greetUser();
 				introduceBlackjack();
 				System.out.println();
 				while (stillPlayingBlackjack)
 					{
+						assignBets();
 						shuffletheDeck();
 						deal();
 						System.out.println();
@@ -51,7 +63,7 @@ public class Blackjack
 			{
 				Scanner userInput = new Scanner(System.in);
 				System.out.println("Welcome to the HowtoCasino! What is your name?");
-				String name = userInput.nextLine();
+				name = userInput.nextLine();
 				System.out.println("Welcome, " + name + "!");
 			}
 		public static void generateRandomNames()
@@ -73,6 +85,41 @@ public class Blackjack
 					{
 						i = (int)(Math.random()*16);
 						name2 = nameArray.get(i);
+					}
+			}
+		public static void assignBets()
+			{
+				int betMax1 = aIDollars1 / 2;
+				int betMax2 = aIDollars2 / 2;
+				if (aIDollars1 < 200)
+					{
+						aIDollars1 = aIDollars1 + 750;
+						aIBet1 = (aIDollars2 / 4) + (int)(Math.random()*betMax1);
+						System.out.println(name1 + " bet $" + aIBet1 + ".");
+					}
+				else
+					{
+						aIBet1 = (aIDollars1 / 4) + (int)(Math.random()*betMax1);
+						System.out.println(name1 + " bet $" + aIBet1 + ".");
+					}
+				if (aIDollars2 < 200)
+					{
+						aIDollars2 = aIDollars2 + 750;
+						aIBet2 = (aIDollars2 / 4) + (int)(Math.random()*betMax2);
+						System.out.println(name2 + " bet $" + aIBet2 + ".");
+					}
+				else
+					{
+						aIBet2 = (aIDollars2 / 4) + (int)(Math.random()*betMax2);
+						System.out.println(name2 + " bet $" + aIBet2 + ".");
+					}
+				System.out.println("You have $" + dollars + ", " + name + ".");
+				System.out.println("How much would you like to bet on this round?");
+				bet = userInput.nextInt();
+				while (bet > dollars)
+					{
+						System.out.println("Enter a bet that is less or equal to $" + dollars + ".");
+						bet = userInput.nextInt();
 					}
 			}
 		public static void shuffletheDeck()
@@ -261,6 +308,8 @@ public class Blackjack
 						else if (aIHand1Total > 21)
 							{
 								System.out.println(name1 + " bust.");
+								System.out.println(name1 + " lost $" + aIBet1 + ".");
+								aIDollars1 = aIDollars1 - aIBet1;
 								aIPlayer1Playing = false;
 							}
 						else if (aIHand1Total >= 16)
@@ -283,6 +332,8 @@ public class Blackjack
 						else if (aIHand2Total > 21)
 							{
 								System.out.println(name2 + " bust.");
+								System.out.println(name2 + " lost $" + aIBet2 + ".");
+								aIDollars2 = aIDollars2 - aIBet2;
 								aIPlayer2Playing = false;
 							}
 						else if (aIHand2Total >= 16)
@@ -299,6 +350,8 @@ public class Blackjack
 						if (playerHandTotal > 21)
 							{
 								System.out.println("You bust.");
+								System.out.println("You lost $" + bet + ".");
+								dollars = dollars - bet;
 								playerPlaying = false;
 							}
 						else
@@ -349,15 +402,18 @@ public class Blackjack
 					{
 						if (aIHand1Total < 21)
 							{
-								System.out.println(name1 + " wins!");
+								System.out.println(name1 + " wins $" + aIBet1 + ".");
+								aIDollars1 = aIDollars1 + aIBet1; 
 							}
 						if (aIHand2Total < 21)
 							{
-								System.out.println(name2 + " wins!");
+								System.out.println(name2 + " wins $" + aIBet2 + ".");
+								aIDollars2 = aIDollars2 + aIBet2;
 							}
 						if (playerHandTotal < 21)
 							{
-								System.out.println("You win!");
+								System.out.println("You win $" + bet + ".");
+								dollars = dollars + bet;
 							}
 					}
 				else if (dealerHandTotal <= 21)
@@ -367,17 +423,21 @@ public class Blackjack
 								if (aIHand1Total < dealerHandTotal)
 									{
 										System.out.println(name1 + " had " + aIHand1Total + " points, but the dealer was closer to 21 with " + dealerHandTotal + " points.");
-										System.out.println(name1 + " lost.");
+										System.out.println(name1 + " lost $" + aIBet1 + ".");
+										aIDollars1 = aIDollars1 - aIBet1;
 									}
 								else if (aIHand1Total > dealerHandTotal)
 									{
 										System.out.println(name1 + " had " + aIHand1Total + " points, and the dealer had " + dealerHandTotal + ".");
-										System.out.println(name1 + " wins.");
+										System.out.println(name1 + " wins $" + aIBet1 + ".");
+										aIDollars1 = aIDollars1 + aIBet1;
 									}
 								else
 									{
 										System.out.println(name1 + " had " + aIHand1Total + " points, and the dealer also had " + dealerHandTotal + " points.");
 										System.out.println(name1 + " and the dealer tied.");
+										System.out.println(name1 + " wins $" + aIBet1 + ".");
+										aIDollars1 = aIDollars1 + aIBet1;
 									}
 							}
 						if (aIHand2Total <= 21)
@@ -385,17 +445,21 @@ public class Blackjack
 								if (aIHand2Total < dealerHandTotal)
 									{
 										System.out.println(name2 + " had " + aIHand2Total + " points, but the dealer was closer to 21 with " + dealerHandTotal + " points.");
-										System.out.println(name2 + " lost.");
+										System.out.println(name2 + " lost $" + aIBet2 + ".");
+										aIDollars2 = aIDollars2 - aIBet2;
 									}
 								else if (aIHand2Total > dealerHandTotal)
 									{
 										System.out.println(name2 + " had " + aIHand2Total + " points, and the dealer had " + dealerHandTotal + ".");
-										System.out.println(name2 + " wins.");
+										System.out.println(name2 + " wins $" + aIBet2 + ".");
+										aIDollars2 = aIDollars2 + aIBet2;
 									}
 								else
 									{
 										System.out.println(name2 + " had " + aIHand2Total + " points, and the dealer also had " + dealerHandTotal + " points.");
 										System.out.println(name2 + " and the dealer tied.");
+										System.out.println(name2 + " wins $" + aIBet2 + ".");
+										aIDollars2 = aIDollars2 + aIBet2;
 									}
 							}
 						if (playerHandTotal <= 21)
@@ -403,24 +467,33 @@ public class Blackjack
 								if (playerHandTotal < dealerHandTotal)
 									{
 										System.out.println("You have " + playerHandTotal + " points, but the dealer was closer to 21 with " + dealerHandTotal + " points.");
-										System.out.println("You lost.");
+										System.out.println("You lost $" + bet + ".");
+										dollars = dollars - bet;
 									}
 								else if (playerHandTotal > dealerHandTotal)
 									{
 										System.out.println("You had " + playerHandTotal + " points, and the dealer had " + dealerHandTotal + ".");
-										System.out.println("You win.");
+										System.out.println("You win $" + bet +".");
+										dollars = dollars + bet;
 									}
 								else
 									{
 										System.out.println("You had " + playerHandTotal + " points, and the dealer also had " + dealerHandTotal + " points.");
 										System.out.println("You and the dealer tied.");
+										System.out.println("You win $" + bet +".");
+										dollars = dollars + bet;
 									}
 							}
 					}
 			}
 		public static void wantToPlayAgain()
 			{
-				if (deck.size() >= 26)
+				if (dollars == 0)
+					{
+						System.out.println("You have $0.");
+						stillPlayingBlackjack = false;
+					}
+				else if (deck.size() >= 26)
 					{
 						System.out.println("Do you want to play BlackJack again?");
 						System.out.println("(1) Yes");
