@@ -116,10 +116,18 @@ public class Blackjack
 				System.out.println("You have $" + dollars + ", " + name + ".");
 				System.out.println("How much would you like to bet on this round?");
 				bet = userInput.nextInt();
-				while (bet > dollars)
+				while (bet > dollars || bet < 1)
 					{
-						System.out.println("Enter a bet that is less or equal to $" + dollars + ".");
-						bet = userInput.nextInt();
+						if (bet > dollars)
+							{
+								System.out.println("Please enter a bet that is less than or equal to $" + dollars + ".");
+								bet = userInput.nextInt();
+							}
+						else if (bet < 1)
+							{
+								System.out.println("Please enter a bet that is greater than 1.");
+								bet = userInput.nextInt();
+							}
 					}
 			}
 		public static void shuffletheDeck()
@@ -495,6 +503,7 @@ public class Blackjack
 					}
 				else if (deck.size() >= 26)
 					{
+						System.out.println("You have $" + dollars + ".");
 						System.out.println("Do you want to play BlackJack again?");
 						System.out.println("(1) Yes");
 						System.out.println("(2) No");
@@ -503,10 +512,33 @@ public class Blackjack
 							{
 								System.out.println("Come back when you want to play Blackjack!");
 								stillPlayingBlackjack = false;
+							}
+						else if (playBlackjackAgain == 1)
+							{
+								stillPlayingBlackjack = true;
+							}
+						else
+							{
+								System.out.println();
+								System.out.println("You have $" + dollars + ".");
+								System.out.println("Do you want to play BlackJack again?");
+								System.out.println("(1) Yes");
+								System.out.println("(2) No");
+								playBlackjackAgain = userInput.nextInt();
+								if (playBlackjackAgain == 2)
+									{
+										System.out.println("Come back when you want to play Blackjack!");
+										stillPlayingBlackjack = false;
+									}
+								else if (playBlackjackAgain == 1)
+									{
+										stillPlayingBlackjack = true;
+									}
 							}
 					}
 				else
 					{
+						System.out.println("You have $" + dollars + ".");
 						System.out.println("Do you want to play BlackJack again?");
 						System.out.println("(1) Yes");
 						System.out.println("(2) No");
@@ -516,7 +548,7 @@ public class Blackjack
 								System.out.println("Come back when you want to play Blackjack!");
 								stillPlayingBlackjack = false;
 							}
-						else
+						else if (playBlackjackAgain == 1)
 							{
 								for (int i = deck.size(); i > 0 ; i++)
 									{
@@ -524,6 +556,6 @@ public class Blackjack
 									}
 								fillArrayDeckOfCards();
 							}
-					}
+					}					
 			}
 	}
