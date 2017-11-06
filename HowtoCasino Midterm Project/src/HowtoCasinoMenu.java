@@ -1,8 +1,16 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 public class HowtoCasinoMenu
 	{
+		private static final long serialVersionUID = 1L;
+		static JFrame frame = new JFrame();
+		static int className;
+		static String number;
+		
 		static Scanner userInput = new Scanner(System.in);
 		static boolean stillPlaying = true;
 		static int dollars = 1000;
@@ -40,37 +48,41 @@ public class HowtoCasinoMenu
 					{
 						if (timesUsed == 1)
 							{
-								System.out.println("You have $" + dollars + "");
-								System.out.println("Welcome to the HowtoCasino!");
-								System.out.println("What is your name?");
-								name = userInput.nextLine();
-								System.out.println("Welcome, " + name + "!");
-								System.out.println("Here at the HowtoCasino, we offer several games for you to choose from!");
-								System.out.println("Take your pick!");
+								JOptionPane.showMessageDialog(frame, "Welcome to the HowtoCasino!");
+								name = JOptionPane.showInputDialog("What is your name?");  
+								JOptionPane.showMessageDialog(frame, "Welcome, " + name + "!");
+								JOptionPane.showMessageDialog(frame, "You have $" + dollars + ".");
+								JOptionPane.showMessageDialog(frame, "Here at the HowtoCasino, we offer several games for you to choose from!");
 							}
 						else if (timesUsed > 1)
 							{
-								System.out.println("Welcome back to the HowtoCasino lobby!");
-								System.out.println("Choose the game you want to play.");
+								JOptionPane.showMessageDialog(frame, "Welcome back to the HowtoCasino lobby!");
+		
 							}
-						System.out.println("(1) Craps");
-						System.out.println("(2) Slots");
-						System.out.println("(3) Keno");
-						System.out.println("(4) Blackjack");
-						int game = userInput.nextInt();
-						switch (game)
+						Object[] game = {"Craps", "Slots", "Keno", "Blackjack"};
+						className = JOptionPane.showOptionDialog(
+								frame, 
+								"Choose the game you want to play.",
+								"Game Selection",
+								JOptionPane.YES_NO_CANCEL_OPTION,
+								JOptionPane.QUESTION_MESSAGE,
+								null, 
+								game, 
+								game[3]
+								);
+						switch (className)
 							{
-								case 1:
+								case 0:
 										{
 											craps();
 											break;
 										}
-								case 2:
+								case 1:
 										{
 											slotMachine();
 											break;
 										}
-								case 3:
+								case 2:
 										{
 											keno();
 											break;
@@ -86,18 +98,29 @@ public class HowtoCasinoMenu
 						}
 					else
 						{
-							System.out.println("Would you like to return to the lobby to play another game?");
-							System.out.println("(1) Yes, return to the HowtoCasino lobby.");
-							System.out.println("(2) No, exit the HowtoCasino.");
-							backToLobby = userInput.nextInt();
-							if (backToLobby == 2)
+							Object[] yesOrNo = {"Yes", "No"};
+							className = JOptionPane.showOptionDialog(
+									frame, 
+									"Would you like to return to the lobby to play another game?",
+									"Hallway",
+									JOptionPane.YES_NO_CANCEL_OPTION,
+									JOptionPane.QUESTION_MESSAGE,
+									null, 
+									yesOrNo, 
+									yesOrNo[1]
+									);
+							switch (className)
 								{
-									stillPlaying = false;
-									System.out.println("Come back again soon!");
-								}
-							else 
-								{
-									stillPlaying = true;
+									case 0:
+											{
+												stillPlaying = true;
+												break;
+											}
+									default:
+											{
+												stillPlaying = false;
+												JOptionPane.showMessageDialog(frame, "Come back again soon!");
+											}
 								}
 						}
 						timesUsed++;
@@ -106,75 +129,97 @@ public class HowtoCasinoMenu
 		//CRAPS
 		public static void craps()
 			{
-				Scanner userInput = new
-				Scanner (System.in);
-				boolean stillPlayingSlots = true;
-				boolean letsPlaySlots = true;
-				while (letsPlaySlots == true)
+				boolean letsPlayCraps = true;
+				while (letsPlayCraps == true)
 					{
-						System.out.println("Welcome to Craps, " + name + "! You have $" + dollars + "!");
-						System.out.println("How much would you like to bet on this game?");
-						int bet = userInput.nextInt();
+						JOptionPane.showMessageDialog(frame, "Welcome to Craps, " + name + "! You have $" + dollars + "!");
+						number = JOptionPane.showInputDialog("How much would you like to bet on this game?");
+						bet = Integer.parseInt(number);
 						while (bet > dollars || bet < 1)
 							{
-								System.out.println("You have entered an invalid bet. Enter a number that is less than or equal to $" + dollars + ".");
-								bet = userInput.nextInt(); 
+								number = JOptionPane.showInputDialog("You have entered an invalid bet. Enter a number that is less than or equal to $" + dollars + ".");
+								bet = Integer.parseInt(number);
 							}
-						System.out.println("You bet $" + bet + " on this game.");
+						JOptionPane.showMessageDialog(frame, "You bet $" + bet + " on this game.");
 						int dieRoll1 = (int)(Math.random ()*6) + 1;
 						int dieRoll2 = (int)(Math.random ()*6) + 1;
 						int totalDice = dieRoll1 + dieRoll2;
+						JOptionPane.showMessageDialog(frame, "Hit OK to roll.");
 						if (totalDice == 7 || totalDice == 11)
 							{
-								System.out.println("You rolled a " + dieRoll1 + " and a " + dieRoll2 + " for a total of " + totalDice + ".");
-								System.out.println("You win " + name + "!");
+								JOptionPane.showMessageDialog(frame, "You rolled a " + dieRoll1 + " and a " + dieRoll2 + " for a total of " + totalDice + ".");
+								JOptionPane.showMessageDialog(frame, "You win " + name + "!");
 								dollars += bet;
 								if (dollars == 0)
 									{
-										letsPlaySlots = false;
+										letsPlayCraps = false;
 									}
 								else if (dollars > 0)
 									{
-										System.out.println("You have $" + dollars + " remaining.");
-										System.out.println("Would you like to play again " + name + "?");
-										System.out.println("(1) Yes");
-										System.out.println("(2) No");
-										int playGameAgain = userInput.nextInt();
-										if (playGameAgain == 2)
+										JOptionPane.showMessageDialog(frame, "You have $" + dollars + " remaining.");
+										Object[] yesOrNo = {"Yes", "No"};
+										className = JOptionPane.showOptionDialog(
+												frame, 
+												"Would you like to play again, " + name + "?",
+												"Play Craps Again?",
+												JOptionPane.YES_NO_CANCEL_OPTION,
+												JOptionPane.QUESTION_MESSAGE,
+												null, 
+												yesOrNo, 
+												yesOrNo[1]
+												);
+										switch (className)
 											{
-												letsPlaySlots = false;
-											}
-										else
-											{
-												System.out.println("Let's play!");
+												case 0:
+														{
+															JOptionPane.showMessageDialog(frame, "Let's play!");
+															break;
+														}
+												case 1:
+														{
+															letsPlayCraps = false;
+															break;
+														}
 											}
 									}
 										}
 								else if (totalDice == 2 || totalDice == 12)
 									{
-										System.out.println("You rolled a " + dieRoll1 + " and a " + dieRoll2 + " for a total of " + totalDice + ".");
-										System.out.println("Sorry, but you lost, " + name + ".");
+										JOptionPane.showMessageDialog(frame, "You rolled a " + dieRoll1 + " and a " + dieRoll2 + " for a total of " + totalDice + ".");
+										JOptionPane.showMessageDialog(frame, "Sorry, but you lost, " + name + ".");
 										dollars -= bet;
 										if (dollars == 0)
 											{
-												System.out.println();
-												letsPlaySlots = false;
+												letsPlayCraps = false;
 												stillPlaying = false;
 											}
 										else if (dollars > 0)
 											{
-												System.out.println("You have $" + dollars + " remaining.");
-												System.out.println("Would you like to play Craps again " + name + "?");
-												System.out.println("(1) Yes");
-												System.out.println("(2) No");
-												int playAgain = userInput.nextInt();
-												if (playAgain == 2)
+												JOptionPane.showMessageDialog(frame, "You have $" + dollars + " remaining.");
+												JOptionPane.showMessageDialog(frame, "You have $" + dollars + " remaining.");
+												Object[] yesOrNo = {"Yes", "No"};
+												className = JOptionPane.showOptionDialog(
+														frame, 
+														"Would you like to play again, " + name + "?",
+														"Play Craps Again?",
+														JOptionPane.YES_NO_CANCEL_OPTION,
+														JOptionPane.QUESTION_MESSAGE,
+														null, 
+														yesOrNo, 
+														yesOrNo[1]
+														);
+												switch (className)
 													{
-														letsPlaySlots = false;
-													}
-												else
-													{
-														System.out.println("Let's play!");
+														case 0:
+																{
+																	JOptionPane.showMessageDialog(frame, "Let's play!");
+																	break;
+																}
+														case 1:
+																{
+																	letsPlayCraps = false;
+																	break;
+																}
 													}
 											}
 									}
@@ -183,84 +228,104 @@ public class HowtoCasinoMenu
 										boolean rollingAgain = true;
 										while (rollingAgain)
 											{	
-											System.out.println("You rolled a " + dieRoll1 + " and a " + dieRoll2 + " for a total of " + totalDice + ".");
-											System.out.println("Your point is " + totalDice + ", " + name + ".");
-											boolean rollingOn = true;
-											while (rollingOn)
-												{
-													int dieRoll3 = (int)(Math.random()*6) + 1;
-													int dieRoll4 = (int)(Math.random()*6) + 1;
-													int totalDice2 = dieRoll3 + dieRoll4;
-													if (totalDice2 == 7)
-														{
-															System.out.println("Your point is " + totalDice + ", but you rolled a " + dieRoll3 + " and a " + dieRoll4 + " for a total of " + totalDice2 + ".");
-															System.out.println("Sorry, but you lost, " + name + ".");
-															dollars -= bet;
-															if (dollars == 0)
-																{
-																	System.out.println("You have lost everything.");
-																	stillPlaying = false;
-																	rollingAgain = false;
-																	rollingOn = false;
-																	letsPlaySlots = false;
-																	stillPlayingSlots = false;
-																}
-															else if (dollars > 0)
-																{
-																	System.out.println("You have $" + dollars + " remaining.");
-																	System.out.println("Would you like to play again " + name + "?");
-																	System.out.println("(1) Yes");
-																	System.out.println("(2) No");
-																	int playAgain = userInput.nextInt();
-																	if (playAgain == 2)
-																		{
-																			rollingAgain = false;
-																			rollingOn = false;
-																			letsPlaySlots = false;
-																			stillPlayingSlots = false;
-																		}
-																	else
-																		{
-																			rollingOn = false;
-																			rollingAgain = false;
-																			System.out.println("Let's play!");
-																		}
-																}
-														}
-													else if (totalDice2 == totalDice)
-														{
-															System.out.println("Your point is " + totalDice + " and you rolled a " + dieRoll3 + " and a " + dieRoll4 + " for a total of " + totalDice2 + ".");
-															System.out.println("You win " + name + "!");
-															dollars += bet;
-															if (dollars == 0)
-																{
-																	System.out.println("You have lost everything.");
-																	stillPlaying = false;
-																	stillPlayingSlots = false;
-																}
-															else if (dollars > 0)
-																{
-																	System.out.println("You have $" + dollars + " remaining.");
-																	System.out.println("Would you like to play Craps again " + name + "?");
-																	System.out.println("(1) Yes");
-																	System.out.println("(2) No");
-																	int playAgain = userInput.nextInt();
-																	if (playAgain == 2)
-																		{
-																			rollingAgain = false;
-																			rollingOn = false;
-																			letsPlaySlots = false;
-																			stillPlayingSlots = false;
-																		}
-																	else
-																		{
-																			rollingOn = false;
-																			rollingAgain = false;
-																			System.out.println("Let's play!");
-																		}
-																}
-														}
-												}
+												JOptionPane.showMessageDialog(frame, "You rolled a " + dieRoll1 + " and a " + dieRoll2 + " for a total of " + totalDice + ".");
+												JOptionPane.showMessageDialog(frame, "Your point is " + totalDice + ", " + name + ".");
+												boolean rollingOn = true;
+												while (rollingOn)
+													{
+														int dieRoll3 = (int)(Math.random()*6) + 1;
+														int dieRoll4 = (int)(Math.random()*6) + 1;
+														int totalDice2 = dieRoll3 + dieRoll4;
+														if (totalDice2 == 7)
+															{
+																JOptionPane.showMessageDialog(frame, "Your point is " + totalDice + ", but you rolled a " + dieRoll3 + " and a " + dieRoll4 + " for a total of " + totalDice2 + ".");
+																JOptionPane.showMessageDialog(frame, "Sorry, but you lost, " + name + ".");
+																dollars -= bet;
+																if (dollars == 0)
+																	{
+																		JOptionPane.showMessageDialog(frame, "You have lost everything.");
+																		stillPlaying = false;
+																		rollingAgain = false;
+																		rollingOn = false;
+																		letsPlayCraps = false;
+																	}
+																else if (dollars > 0)
+																	{
+																		JOptionPane.showMessageDialog(frame, "You have $" + dollars + " remaining.");
+																		Object[] yesOrNo = {"Yes", "No"};
+																		className = JOptionPane.showOptionDialog(
+																				frame, 
+																				"Would you like to play again, " + name + "?",
+																				"Play Craps Again?",
+																				JOptionPane.YES_NO_CANCEL_OPTION,
+																				JOptionPane.QUESTION_MESSAGE,
+																				null, 
+																				yesOrNo, 
+																				yesOrNo[1]
+																				);
+																		switch (className)
+																			{
+																				case 0:
+																						{
+																							JOptionPane.showMessageDialog(frame, "Let's play!");
+																							rollingAgain = false;
+																							rollingOn = false;
+																							break;
+																						}
+																				case 1:
+																						{
+																							rollingAgain = false;
+																							rollingOn = false;
+																							letsPlayCraps = false;
+																							break;
+																						}
+																			}
+																	}
+															}
+														else if (totalDice2 == totalDice)
+															{
+																JOptionPane.showMessageDialog(frame, "Your point is " + totalDice + " and you rolled a " + dieRoll3 + " and a " + dieRoll4 + " for a total of " + totalDice2 + ".");
+																JOptionPane.showMessageDialog(frame, "You win " + name + "!");
+																dollars += bet;
+																if (dollars == 0)
+																	{
+																		JOptionPane.showMessageDialog(frame, "You have lost everything.");
+																		stillPlaying = false;
+																	}
+																else if (dollars > 0)
+																	{
+																		JOptionPane.showMessageDialog(frame, "You have $" + dollars + " remaining.");
+																		Object[] yesOrNo = {"Yes", "No"};
+																		className = JOptionPane.showOptionDialog(
+																				frame, 
+																				"Would you like to play again, " + name + "?",
+																				"Play Craps Again?",
+																				JOptionPane.YES_NO_CANCEL_OPTION,
+																				JOptionPane.QUESTION_MESSAGE,
+																				null, 
+																				yesOrNo, 
+																				yesOrNo[1]
+																				);
+																		switch (className)
+																			{
+																				case 0:
+																						{
+																							JOptionPane.showMessageDialog(frame, "Let's play!");
+																							rollingAgain = false;
+																							rollingOn = false;
+																							break;
+																						}
+																				case 1:
+																						{
+																							rollingAgain = false;
+																							rollingOn = false;
+																							letsPlayCraps = false;
+																							break;
+																						}
+																			}
+																	}
+															}
+													}
 											}
 									}
 					}
