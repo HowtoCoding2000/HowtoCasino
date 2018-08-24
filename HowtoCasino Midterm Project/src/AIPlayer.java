@@ -8,6 +8,7 @@ public class AIPlayer
 		int card3;
 		int card4;
 		int card5;
+		// testinh
 		public String getName()
 			{
 				return name;
